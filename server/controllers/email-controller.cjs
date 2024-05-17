@@ -23,7 +23,7 @@ class emailController {
       const emailHtml = render(EmailForm(data));
 
       await this.transporter
-        .sendMail({
+        .sendMail(data.Poster ? {
           from: data.Email,
           to: process.env.SMTP_USER,
           subject: `Film Festival 2024 - Участие от ${data.FirstName} ${data.LastName}`,
@@ -36,6 +36,12 @@ class emailController {
               encoding: 'base64',
             },
           ],
+        } : {
+          from: data.Email,
+          to: process.env.SMTP_USER,
+          subject: `Film Festival 2024 - Участие от ${data.FirstName} ${data.LastName}`,
+          text: "",
+          html: emailHtml
         })
         .then((res) => console.log({ res }));
 
